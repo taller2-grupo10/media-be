@@ -1,0 +1,56 @@
+# Use root/example as user/password credentials
+version: '3.1'
+
+services:
+  app:
+    container_name: app
+    restart: always
+    build: .
+    ports:
+      - "3000:3000"
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    env_file:
+      - ./.env.dev
+  mongo:
+    container_name: mongo
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - data:/data/db
+    ports:
+      - '27017:27017'
+
+  test:
+    container_name: test
+    restart: always
+    build: 
+      context: .
+      dockerfile: DockerfileTest
+    links:
+      - mongo_tests
+    depends_on:
+      - mongo_tests
+
+  mongo_tests:
+    container_name: mongo_tests
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: test
+      MONGO_INITDB_ROOT_PASSWORD: test
+    volumes:
+      - data_test:/data/db
+    expose:
+      - "27018"
+    command: mongod --port 27018
+    ports:
+      - '27018:27018'
+
+
+volumes:
+  data:
+  data_test:
