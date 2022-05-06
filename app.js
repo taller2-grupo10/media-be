@@ -1,4 +1,4 @@
-import createApp from "./project/create_app.js";
+import createApp from "./project/createApp.js";
 import configurations from "./config.js";
 
 var app = createApp(configurations);
