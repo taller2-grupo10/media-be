@@ -38,7 +38,6 @@ const songUpdate = (req, res) => {
 const songGetByName = (req, res) => {
   const name = req.params.name;
   Song.find({ title: { $regex: name, $options: "i" } })
-    .populate(["artist", "album"])
     .then((result) => {
       res.status(200).send(result);
     })
@@ -50,7 +49,6 @@ const songGetByName = (req, res) => {
 const songGetByID = (req, res) => {
   const id = req.params.id;
   Song.findById(id)
-    .populate(["artist", "album"])
     .then((result) => {
       res.status(200).send(result);
     })
