@@ -14,7 +14,8 @@ const albumCreate = (req, res) => {
 
 const albumDelete = (req, res) => {
   const id = req.params.id;
-  Album.findByIdAndDelete(id)
+  Album.findById(id)
+    .updateOne({ $set: { isDeleted: true } })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -26,6 +27,17 @@ const albumDelete = (req, res) => {
 const albumUpdate = (req, res) => {
   const id = req.params.id;
   Album.findByIdAndUpdate(id, req.body)
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
+const albumGetByArtistId = (req, res) => {
+  const artistId = req.params.artistId;
+  Album.find({ "artist.artist": artistId })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -57,4 +69,22 @@ const albumGetByID = (req, res) => {
     });
 };
 
-export { albumCreate, albumDelete, albumUpdate, albumGetByName, albumGetByID };
+const albumGetAll = (req, res) => {
+  Album.find()
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
+export {
+  albumCreate,
+  albumDelete,
+  albumUpdate,
+  albumGetByArtistId,
+  albumGetByName,
+  albumGetByID,
+  albumGetAll,
+};

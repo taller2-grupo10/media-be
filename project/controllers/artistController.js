@@ -14,7 +14,8 @@ const artistCreate = (req, res) => {
 
 const artistDelete = (req, res) => {
   const id = req.params.id;
-  Artist.findByIdAndDelete(id)
+  Artist.findById(id)
+    .updateOne({ $set: { isDeleted: true } })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -46,9 +47,20 @@ const artistGetByName = (req, res) => {
     });
 };
 
-const artistGetByID = (req, res) => {
-  const id = req.params.id;
-  Artist.findById(id)
+const artistGetByUID = (req, res) => {
+  const uid = req.params.uid;
+  console.log(uid);
+  Artist.find({ userId: uid })
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
+const artistGetAll = (req, res) => {
+  Artist.find()
     .then((result) => {
       res.status(200).send(result);
     })
@@ -62,5 +74,6 @@ export {
   artistDelete,
   artistUpdate,
   artistGetByName,
-  artistGetByID,
+  artistGetByUID,
+  artistGetAll,
 };

@@ -14,7 +14,8 @@ const songCreate = (req, res) => {
 
 const songDelete = (req, res) => {
   const id = req.params.id;
-  Song.findByIdAndDelete(id)
+  Song.findById(id)
+    .updateOne({ $set: { isDeleted: true } })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -26,6 +27,28 @@ const songDelete = (req, res) => {
 const songUpdate = (req, res) => {
   const id = req.params.id;
   Song.findByIdAndUpdate(id, req.body)
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
+const songGetByArtistId = (req, res) => {
+  const artistId = req.params.artistId;
+  Song.find({ "artist.artist": artistId })
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
+const songGetByAlbumId = (req, res) => {
+  const albumId = req.params.albumId;
+  Song.find({ "album.album": albumId })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -57,4 +80,23 @@ const songGetByID = (req, res) => {
     });
 };
 
-export { songCreate, songDelete, songUpdate, songGetByName, songGetByID };
+const songGetAll = (req, res) => {
+  Song.find()
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
+export {
+  songCreate,
+  songDelete,
+  songUpdate,
+  songGetByArtistId,
+  songGetByAlbumId,
+  songGetByName,
+  songGetByID,
+  songGetAll,
+};
