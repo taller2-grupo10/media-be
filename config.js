@@ -2,11 +2,12 @@
 import { config } from "dotenv";
 config();
 
+const MONGODB_LOCAL_HOST = (process.env.DOCKER === "True" ? "mongo" : "localhost");
 const configurations = {
   PORT: process.env.PORT || 3000,
   MONGODB_USER: process.env.MONGODB_USER || "root",
   MONGODB_PASSWORD: process.env.MONGODB_PASSWORD || "example",
-  MONGODB_DATABASE: process.env.MONGODB_DB || "mongo:27017",
+  MONGODB_DATABASE: process.env.MONGODB_DB || `${MONGODB_LOCAL_HOST}:27017`,
 };
 
 configurations.MONGODB_URI = `mongodb${
