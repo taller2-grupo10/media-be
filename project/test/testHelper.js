@@ -8,7 +8,6 @@ const MONGODB_URI = "mongodb://test:test@mongo_tests:27018";
 mongoose.connect(MONGODB_URI);
 
 mongoose.connection
-
   .once("open", () => console.log("[TEST] Connected!"))
   .on("error", (error) => {
     console.warn("[TEST] Error : ", error);
@@ -16,9 +15,8 @@ mongoose.connection
 
 // runs before each test
 beforeEach((done) => {
-  console.log("[DATABASE] Clearing the database");
-  mongoose.connection.collections.artists.drop(() => {
-    //this function runs after the drop is completed
-    done(); //go ahead everything is done now.
+  Object.keys(mongoose.connection.collections).forEach((collection) => {
+    mongoose.connection.collections[collection].drop().then();
   });
+  done();
 });

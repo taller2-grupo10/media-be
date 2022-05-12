@@ -1,4 +1,3 @@
-//import the User model
 import { Artist } from "../../models/artist.js";
 import assert from "assert";
 
