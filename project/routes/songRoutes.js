@@ -20,7 +20,7 @@ songRouter.delete("/:id", songDelete);
 songRouter.put("/:id", songUpdate);
 songRouter.get("/artistId/:artistId", songGetByArtistId);
 songRouter.get("/albumId/:albumId", songGetByAlbumId);
-//songRouter.get("/:name", songGetByName);
+songRouter.get("/name/:name", songGetByName);
 songRouter.get("/:id", songGetByID);
 songRouter.get("/", songGetAll);
 

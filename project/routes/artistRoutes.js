@@ -15,6 +15,7 @@ artistRouter.post("/", artistCreate);
 artistRouter.delete("/:id", artistDelete);
 artistRouter.put("/:id", artistUpdate);
 artistRouter.get("/:uid", artistGetByUID);
+artistRouter.get("/name/:name", artistGetByName);
 artistRouter.get("/", artistGetAll);
 
 export { artistRouter, ARTIST_ROUTE };
