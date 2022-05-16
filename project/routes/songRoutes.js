@@ -9,11 +9,13 @@ import {
   songGetByID,
   songGetAll,
 } from "../controllers/songController.js";
+import multer from "multer";
 
 const songRouter = express.Router();
+const upload = multer();
 const SONG_ROUTE = "/songs";
 
-songRouter.post("/", songCreate);
+songRouter.post("/", upload.any(), songCreate);
 songRouter.delete("/:id", songDelete);
 songRouter.put("/:id", songUpdate);
 songRouter.get("/artistId/:artistId", songGetByArtistId);

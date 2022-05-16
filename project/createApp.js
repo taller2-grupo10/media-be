@@ -12,6 +12,7 @@ function createApp(configs) {
 
   app.use(cors()); //cors.init_app(app)
   app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
   registerRoutes(app);
   return app;
 }

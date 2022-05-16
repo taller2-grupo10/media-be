@@ -1,11 +1,34 @@
 import { Song } from "../models/song.js";
+import { musicUpload } from "../helpers/musicUploadHelper.js";
 
-const songCreate = (req, res) => {
-  const song = new Song(req.body);
+const songCreate = async (req, res) => {
+  let data = req.files.filter((file) => file.fieldname === "data");
+  data = data.length > 0 ? data[0] : null;
+  if (!data)
+    return res
+      .status(400)
+      .send({ message: "Error creating Song. No song data was sent." });
+
+  data = JSON.parse(data.buffer.toString());
+
+  let files = req.files.filter((file) => file.fieldname === "files");
+  let file = files.length > 0 ? files[0] : null;
+  if (!file)
+    return res
+      .status(400)
+      .send({ message: "Error creating Song. No song file was sent." });
+
+  let songUrl = await musicUpload(file.buffer, file.originalname);
+  data.url = songUrl;
+
+  const song = new Song(data);
   song
     .save()
     .then((result) => {
-      res.status(201).send(result);
+      res.status(201).send({
+        message: `Song successfully created. File name is: ${file.originalname}`,
+        data: result,
+      });
     })
     .catch((err) => {
       res.status(400).send(err);
