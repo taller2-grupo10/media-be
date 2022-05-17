@@ -47,10 +47,9 @@ const artistGetByName = (req, res) => {
     });
 };
 
-const artistGetByUID = (req, res) => {
-  const uid = req.params.uid;
-  console.log(uid);
-  Artist.find({ userId: uid })
+const artistGetByID = (req, res) => {
+  const id = req.params.id;
+  Artist.findById(id)
     .then((result) => {
       res.status(200).send(result);
     })
@@ -74,6 +73,6 @@ export {
   artistDelete,
   artistUpdate,
   artistGetByName,
-  artistGetByUID,
+  artistGetByID,
   artistGetAll,
 };

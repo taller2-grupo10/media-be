@@ -5,8 +5,11 @@ const songSchema = new Schema(
   {
     title: { type: String, required: true },
     artists: {
-      artists: [{ type: Schema.Types.ObjectId, ref: "artists" }],
-      names: [{ type: String, required: false }],
+      artist: { type: Schema.Types.ObjectId, ref: "artists" },
+      name: { type: String, required: true },
+
+      collaborators: [{ type: Schema.Types.ObjectId, ref: "artists" }],
+      collaboratorsNames: [{ type: String, required: false }],
     },
     album: {
       album: { type: Schema.Types.ObjectId, ref: "albums" },

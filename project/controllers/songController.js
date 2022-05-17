@@ -60,7 +60,12 @@ const songUpdate = (req, res) => {
 
 const songGetByArtistId = (req, res) => {
   const artistId = req.params.artistId;
-  Song.find({ "artist.artist": artistId })
+  Song.find({
+    $or: [
+      { "artists.artist": artistId },
+      { "artists.collaborators": artistId },
+    ],
+  })
     .then((result) => {
       res.status(200).send(result);
     })

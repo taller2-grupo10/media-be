@@ -4,7 +4,7 @@ import {
   artistDelete,
   artistUpdate,
   artistGetByName,
-  artistGetByUID,
+  artistGetByID,
   artistGetAll,
 } from "../controllers/artistController.js";
 
@@ -14,7 +14,7 @@ const ARTIST_ROUTE = "/artists";
 artistRouter.post("/", artistCreate);
 artistRouter.delete("/:id", artistDelete);
 artistRouter.put("/:id", artistUpdate);
-artistRouter.get("/:uid", artistGetByUID);
+artistRouter.get("/:id", artistGetByID);
 artistRouter.get("/name/:name", artistGetByName);
 artistRouter.get("/", artistGetAll);
 

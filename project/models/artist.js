@@ -5,7 +5,7 @@ const artistSchema = new Schema(
   {
     name: { type: String, required: true },
     plays: { type: Number, required: true, default: 0 },
-    userId: { type: Number, required: true },
+    uid: { type: String, required: true },
     isDeleted: { type: Boolean, required: false, default: false },
   },
   {
