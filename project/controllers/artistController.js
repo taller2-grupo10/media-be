@@ -38,7 +38,7 @@ const artistUpdate = (req, res) => {
 // artist get by name with contains
 const artistGetByName = (req, res) => {
   const name = req.params.name;
-  Artist.find({ name: { $regex: name, $options: "i" } })
+  Artist.find({ name: { $regex: name, $options: "i" } }, "-uid")
     .then((result) => {
       res.status(200).send(result);
     })
@@ -49,7 +49,7 @@ const artistGetByName = (req, res) => {
 
 const artistGetByID = (req, res) => {
   const id = req.params.id;
-  Artist.findById(id)
+  Artist.findById(id, "-uid")
     .then((result) => {
       res.status(200).send(result);
     })
@@ -59,7 +59,7 @@ const artistGetByID = (req, res) => {
 };
 
 const artistGetAll = (req, res) => {
-  Artist.find()
+  Artist.find({}, "-uid")
     .then((result) => {
       res.status(200).send(result);
     })
