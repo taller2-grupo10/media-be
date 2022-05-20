@@ -1,4 +1,5 @@
 import { mongoose } from "mongoose";
+import musicGenres from "../helpers/musicGenres.js";
 const Schema = mongoose.Schema;
 
 const songSchema = new Schema(
@@ -20,7 +21,7 @@ const songSchema = new Schema(
       {
         type: String,
         required: false,
-        enum: ["Unspecified", "Rock", "Trap"],
+        enum: musicGenres,
         default: "Unspecified",
       },
     ],
