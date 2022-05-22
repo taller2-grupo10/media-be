@@ -22,7 +22,7 @@ const songSchema = new Schema(
         type: String,
         required: false,
         enum: musicGenres,
-        default: "Unspecified",
+        default: "Other",
       },
     ],
     url: { type: String, required: true },
