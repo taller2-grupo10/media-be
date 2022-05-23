@@ -25,32 +25,5 @@ services:
     ports:
       - '27017:27017'
 
-  test:
-    container_name: test
-    restart: always
-    build: 
-      context: .
-      dockerfile: DockerfileTest
-    links:
-      - mongo_tests
-    depends_on:
-      - mongo_tests
-
-  mongo_tests:
-    container_name: mongo_tests
-    image: mongo
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: test
-      MONGO_INITDB_ROOT_PASSWORD: test
-    volumes:
-      - data_test:/data/db
-    expose:
-      - "27018"
-    command: mongod --port 27018
-    ports:
-      - '27018:27018'
-
-
 volumes:
   data:
-  data_test:
