@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "mocha project/test/**  -R min --exit --timeout 10000",
+    "coverage": "nyc npm test",
     "start_nodemon": "nodemon index.js",
     "start": "node index.js"
   },
@@ -27,7 +28,8 @@
     "mocha": "^10.0.0",
     "mongoose": "^6.3.2",
     "multer": "^1.4.4",
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.16",
+    "nyc": "^15.1.0"
   },
   "devDependencies": {
     "eslint": "^8.14.0",

@@ -1,0 +1,12 @@
+{
+  "all": true,
+  "include": [
+    "project/**/*.js"
+  ],
+  "exclude": [
+    "project/test"
+  ],
+  "clean": true,
+  "reporter": "clover",
+  "report-dir": "./"
+}
