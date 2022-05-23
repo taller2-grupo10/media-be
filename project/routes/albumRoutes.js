@@ -7,11 +7,13 @@ import {
   albumGetByID,
   albumGetAll,
 } from "../controllers/albumController.js";
+import multer from "multer";
 
 const albumRouter = express.Router();
+const upload = multer();
 const ALBUM_ROUTE = "/albums";
 
-albumRouter.post("/", albumCreate);
+albumRouter.post("/", upload.any(), albumCreate);
 albumRouter.delete("/:id", albumDelete);
 albumRouter.put("/:id", albumUpdate);
 albumRouter.get("/artistId/:artistId", albumGetByArtistId);

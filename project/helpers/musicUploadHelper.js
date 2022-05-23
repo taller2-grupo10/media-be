@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-export const musicUpload = async (musicFile, musicTitle) => {
+export const fileUpload = async (musicFile, musicTitle) => {
   // Set the configuration
   // TODO: This config is to test. Replace with app's config object
   const firebaseConfig = {

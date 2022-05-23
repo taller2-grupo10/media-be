@@ -1,5 +1,5 @@
 import { Song } from "../models/song.js";
-import { musicUpload } from "../helpers/musicUploadHelper.js";
+import { fileUpload } from "../helpers/musicUploadHelper.js";
 
 const songCreate = async (req, res) => {
   let data = req.files.filter((file) => file.fieldname === "data");
@@ -18,17 +18,14 @@ const songCreate = async (req, res) => {
       .status(400)
       .send({ message: "Error creating Song. No song file was sent." });
 
-  let songUrl = await musicUpload(file.buffer, file.originalname);
+  let songUrl = await fileUpload(file.buffer, file.originalname);
   data.url = songUrl;
 
   const song = new Song(data);
   song
     .save()
     .then((result) => {
-      res.status(201).send({
-        message: `Song successfully created. File name is: ${file.originalname}`,
-        data: result,
-      });
+      res.status(201).send(result);
     })
     .catch((err) => {
       res.status(400).send(err);
