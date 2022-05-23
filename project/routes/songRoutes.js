@@ -8,6 +8,7 @@ import {
   songGetByAlbumId,
   songGetByID,
   songGetAll,
+  songGetByGenre,
 } from "../controllers/songController.js";
 import multer from "multer";
 
@@ -23,5 +24,6 @@ songRouter.get("/albumId/:albumId", songGetByAlbumId);
 songRouter.get("/name/:name", songGetByName);
 songRouter.get("/:id", songGetByID);
 songRouter.get("/", songGetAll);
+songRouter.get("/genre/:genre", songGetByGenre);
 
 export { songRouter, SONG_ROUTE };

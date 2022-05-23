@@ -99,6 +99,17 @@ const albumGetAll = (req, res) => {
     });
 };
 
+const albumGetByGenre = (req, res) => {
+  const genre = req.params.genre;
+  Album.find({ genres: genre })
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
 export {
   albumCreate,
   albumDelete,
@@ -107,4 +118,5 @@ export {
   albumGetByName,
   albumGetByID,
   albumGetAll,
+  albumGetByGenre,
 };

@@ -115,6 +115,17 @@ const songGetAll = (req, res) => {
     });
 };
 
+const songGetByGenre = (req, res) => {
+  const genre = req.params.genre;
+  Song.find({ genres: genre })
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
 export {
   songCreate,
   songDelete,
@@ -124,4 +135,5 @@ export {
   songGetByName,
   songGetByID,
   songGetAll,
+  songGetByGenre,
 };
