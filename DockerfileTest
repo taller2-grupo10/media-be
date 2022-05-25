@@ -5,4 +5,4 @@ COPY package.json /usr/src/app
 RUN npm install
 COPY . /usr/src/app
 ENV TESTING True
-CMD ["npm", "test"]
+ENTRYPOINT ["/usr/src/app/entrypoint_test.sh"]

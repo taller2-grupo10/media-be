@@ -4,16 +4,26 @@ import {
   songDelete,
   songUpdate,
   songGetByName,
+  songGetByArtistId,
+  songGetByAlbumId,
   songGetByID,
+  songGetAll,
+  songGetByGenre,
 } from "../controllers/songController.js";
+import multer from "multer";
 
 const songRouter = express.Router();
+const upload = multer();
 const SONG_ROUTE = "/songs";
 
-songRouter.post("/", songCreate);
+songRouter.post("/", upload.any(), songCreate);
 songRouter.delete("/:id", songDelete);
 songRouter.put("/:id", songUpdate);
-songRouter.get("/:name", songGetByName);
+songRouter.get("/artistId/:artistId", songGetByArtistId);
+songRouter.get("/albumId/:albumId", songGetByAlbumId);
+songRouter.get("/name/:name", songGetByName);
 songRouter.get("/:id", songGetByID);
+songRouter.get("/", songGetAll);
+songRouter.get("/genre/:genre", songGetByGenre);
 
 export { songRouter, SONG_ROUTE };

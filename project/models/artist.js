@@ -5,13 +5,13 @@ const artistSchema = new Schema(
   {
     name: { type: String, required: true },
     plays: { type: Number, required: true, default: 0 },
-    songs: [{ type: Schema.Types.ObjectId, ref: "song" }],
-    userId: { type: Number, required: true },
+    uid: { type: String, required: true },
+    isDeleted: { type: Boolean, required: false, default: false },
   },
   {
     timestamps: true,
-    collection: "artist",
+    collection: "artists",
   },
 );
 
-export const Artist = mongoose.model("artist", artistSchema);
+export const Artist = mongoose.model("artists", artistSchema);
