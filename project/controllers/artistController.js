@@ -12,21 +12,9 @@ const artistCreate = (req, res) => {
     });
 };
 
-const artistDelete = (req, res) => {
-  const id = req.params.id;
-  Artist.findById(id)
-    .updateOne({ $set: { isDeleted: true } })
-    .then((result) => {
-      res.status(200).send(result);
-    })
-    .catch((err) => {
-      res.status(400).send(err);
-    });
-};
-
 const artistUpdate = (req, res) => {
   const id = req.params.id;
-  Artist.findByIdAndUpdate(id, req.body)
+  Artist.findByIdAndUpdate(id, req.body, { new: true })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -70,7 +58,6 @@ const artistGetAll = (req, res) => {
 
 export {
   artistCreate,
-  artistDelete,
   artistUpdate,
   artistGetByName,
   artistGetByID,

@@ -32,21 +32,9 @@ const songCreate = async (req, res) => {
     });
 };
 
-const songDelete = (req, res) => {
-  const id = req.params.id;
-  Song.findById(id)
-    .updateOne({ $set: { isDeleted: true } })
-    .then((result) => {
-      res.status(200).send(result);
-    })
-    .catch((err) => {
-      res.status(400).send(err);
-    });
-};
-
 const songUpdate = (req, res) => {
   const id = req.params.id;
-  Song.findByIdAndUpdate(id, req.body)
+  Song.findByIdAndUpdate(id, req.body, { new: true })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -128,7 +116,6 @@ const songGetByGenre = (req, res) => {
 
 export {
   songCreate,
-  songDelete,
   songUpdate,
   songGetByArtistId,
   songGetByAlbumId,

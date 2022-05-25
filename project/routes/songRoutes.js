@@ -1,7 +1,6 @@
 import express from "express";
 import {
   songCreate,
-  songDelete,
   songUpdate,
   songGetByName,
   songGetByArtistId,
@@ -17,7 +16,6 @@ const upload = multer();
 const SONG_ROUTE = "/songs";
 
 songRouter.post("/", upload.any(), songCreate);
-songRouter.delete("/:id", songDelete);
 songRouter.put("/:id", songUpdate);
 songRouter.get("/artistId/:artistId", songGetByArtistId);
 songRouter.get("/albumId/:albumId", songGetByAlbumId);
