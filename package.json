@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "mocha project/test/**  -R min --exit --timeout 10000",
-    "coverage": "nyc npm test",
+    "coverage": "c8 npm test",
     "start_nodemon": "nodemon index.js",
     "start": "node index.js"
   },
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/taller2-grupo10/media-test#readme",
   "dependencies": {
+    "c8": "^7.11.3",
     "chai": "^4.3.6",
     "chai-http": "^4.3.0",
     "cors": "^2.8.5",
@@ -30,8 +31,7 @@
     "mocha": "^10.0.0",
     "mongoose": "^6.3.2",
     "multer": "^1.4.4",
-    "nodemon": "^2.0.16",
-    "nyc": "^15.1.0"
+    "nodemon": "^2.0.16"
   },
   "devDependencies": {
     "eslint": "^8.14.0",
