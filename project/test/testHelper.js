@@ -1,6 +1,7 @@
 // test/test_helper.js
 
 import { mongoose } from "mongoose";
+import createApp from "../createApp.js";
 
 // tells mongoose to use ES6 implementation of promises
 mongoose.Promise = global.Promise;
@@ -20,3 +21,10 @@ beforeEach((done) => {
   });
   done();
 });
+
+var app = createApp({ PORT: 3000 });
+export const testUrl = "http://localhost:3000";
+
+app.listen(app.get("port"), () =>
+  console.log(`[APP] Server Running successfully`),
+);
