@@ -50,4 +50,22 @@ const playlistUpdate = (req, res) => {
     });
 };
 
-export { playlistCreate, playlistGetByID, playlistGetByUserId, playlistUpdate };
+const playlistGetAll = (req, res) => {
+  Playlist.find()
+    .then((result) => {
+      result.populate("songs").then((result) => {
+        res.status(200).send(result);
+      });
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
+export {
+  playlistCreate,
+  playlistGetByID,
+  playlistGetByUserId,
+  playlistUpdate,
+  playlistGetAll,
+};
