@@ -5,6 +5,7 @@ import { songRouter, SONG_ROUTE } from "./routes/songRoutes.js";
 import { artistRouter, ARTIST_ROUTE } from "./routes/artistRoutes.js";
 import { albumRouter, ALBUM_ROUTE } from "./routes/albumRoutes.js";
 import { genresRouter, GENRES_ROUTE } from "./routes/genresRoutes.js";
+import { playlistRouter, PLAYLIST_ROUTE } from "./routes/playlistRoutes.js";
 
 function createApp(configs) {
   // Create the express app
@@ -25,6 +26,7 @@ function registerRoutes(app) {
   app.use(`${ARTIST_ROUTE}`, artistRouter);
   app.use(`${ALBUM_ROUTE}`, albumRouter);
   app.use(`${GENRES_ROUTE}`, genresRouter);
+  app.use(`${PLAYLIST_ROUTE}`, playlistRouter);
 }
 
 export default createApp;

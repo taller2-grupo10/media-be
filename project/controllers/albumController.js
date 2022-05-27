@@ -32,21 +32,9 @@ const albumCreate = async (req, res) => {
     });
 };
 
-const albumDelete = (req, res) => {
-  const id = req.params.id;
-  Album.findById(id)
-    .updateOne({ $set: { isDeleted: true } })
-    .then((result) => {
-      res.status(200).send(result);
-    })
-    .catch((err) => {
-      res.status(400).send(err);
-    });
-};
-
 const albumUpdate = (req, res) => {
   const id = req.params.id;
-  Album.findByIdAndUpdate(id, req.body)
+  Album.findByIdAndUpdate(id, req.body, { new: true })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -112,7 +100,6 @@ const albumGetByGenre = (req, res) => {
 
 export {
   albumCreate,
-  albumDelete,
   albumUpdate,
   albumGetByArtistId,
   albumGetByName,
