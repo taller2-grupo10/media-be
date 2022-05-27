@@ -55,7 +55,7 @@ const albumGetByArtistId = (req, res) => {
 };
 
 // album get by name with contains
-const albumGetByName = (req, res) => {
+/*const albumGetByName = (req, res) => {
   const name = req.params.name;
   Album.find({ title: { $regex: name, $options: "i" } })
     .then((result) => {
@@ -64,7 +64,7 @@ const albumGetByName = (req, res) => {
     .catch((err) => {
       res.status(400).send(err);
     });
-};
+};*/
 
 const albumGetByID = (req, res) => {
   const id = req.params.id;
@@ -102,7 +102,7 @@ export {
   albumCreate,
   albumUpdate,
   albumGetByArtistId,
-  albumGetByName,
+  //albumGetByName,
   albumGetByID,
   albumGetAll,
   albumGetByGenre,
