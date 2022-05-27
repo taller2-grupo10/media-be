@@ -1,5 +1,5 @@
 import { Album } from "../models/album.js";
-import { fileUpload } from "../helpers/musicUploadHelper.js";
+import { fileUpload } from "../helpers/fileUploadHelper.js";
 
 const albumCreate = async (req, res) => {
   let data = req.files.filter((file) => file.fieldname === "data");
