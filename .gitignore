@@ -1,3 +1,7 @@
 data/
 node_modules/
 .env.*
+.vscode/settings.json
+.env
+.nyc_output/
+clover.xml

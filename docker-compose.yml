@@ -15,6 +15,7 @@ services:
     env_file:
       - ./.env.dev
   mongo:
+    restart: always
     container_name: mongo
     image: mongo
     environment:
