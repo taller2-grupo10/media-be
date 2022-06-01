@@ -29,6 +29,7 @@ const playlistGetByUserId = (req, res) => {
   const userId = req.params.userId;
   Playlist.find({
     $or: [{ owner: userId }, { collaborators: userId }],
+    isDeleted: false,
   })
     .then((result) => {
       res.status(200).send(result);
@@ -51,7 +52,7 @@ const playlistUpdate = (req, res) => {
 };
 
 const playlistGetAll = (req, res) => {
-  Playlist.find()
+  Playlist.find({ isDeleted: false })
     .then((result) => {
       result.populate("songs").then((result) => {
         res.status(200).send(result);

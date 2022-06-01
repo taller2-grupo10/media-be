@@ -15,7 +15,7 @@ const songSchema = new Schema(
     album: {
       album: { type: Schema.Types.ObjectId, ref: "albums" },
       name: { type: String, required: false },
-      photoUrl: { type: String, required: false },
+      photoURL: { type: String, required: false },
     },
     plays: { type: Number, required: true, default: 0 },
     genres: [
