@@ -1,5 +1,6 @@
 import { mongoose } from "mongoose";
 import musicGenres from "../helpers/musicGenres.js";
+import worldLocations from "../helpers/worldLocations.js";
 const Schema = mongoose.Schema;
 
 const songSchema = new Schema(
@@ -27,6 +28,11 @@ const songSchema = new Schema(
       },
     ],
     url: { type: String, required: true },
+    location: {
+      type: String,
+      required: false,
+      enum: worldLocations,
+    },
     isDeleted: { type: Boolean, required: false, default: false },
   },
   {
