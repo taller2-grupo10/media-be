@@ -14,6 +14,11 @@
  *          uid:
  *            type: string
  *            required: true
+ *          location:
+ *            type: string
+ *            required: false
+ *            enum:
+ *              $ref: '#/components/schemas/WorldLocation'
  *          createdAt:
  *            type: string
  *            format: date-time
