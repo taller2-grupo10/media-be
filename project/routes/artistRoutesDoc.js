@@ -19,6 +19,8 @@
  *            required: false
  *            enum:
  *              $ref: '#/components/schemas/WorldLocation'
+ *          genres:
+ *            $ref: '#/components/schemas/Genre'
  *          createdAt:
  *            type: string
  *            format: date-time
