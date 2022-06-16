@@ -45,7 +45,7 @@ const albumUpdate = (req, res) => {
 
 const albumGetByArtistId = (req, res) => {
   const artistId = req.params.artistId;
-  Album.find({ "artist.artist": artistId })
+  Album.find({ "artist.artist": artistId, isDeleted: false })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -78,7 +78,7 @@ const albumGetByID = (req, res) => {
 };
 
 const albumGetAll = (req, res) => {
-  Album.find()
+  Album.find({ isDeleted: false })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -89,7 +89,7 @@ const albumGetAll = (req, res) => {
 
 const albumGetByGenre = (req, res) => {
   const genre = req.params.genre;
-  Album.find({ genres: genre })
+  Album.find({ genres: genre, isDeleted: false })
     .then((result) => {
       res.status(200).send(result);
     })
