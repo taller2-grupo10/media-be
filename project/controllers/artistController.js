@@ -37,7 +37,7 @@ const artistGetByName = (req, res) => {
 
 const artistGetByID = (req, res) => {
   const id = req.params.id;
-  Artist.findById(id, "-uid")
+  Artist.findById(id)
     .then((result) => {
       res.status(200).send(result);
     })
