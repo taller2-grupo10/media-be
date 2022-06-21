@@ -6,6 +6,12 @@ import { artistRouter, ARTIST_ROUTE } from "./routes/artistRoutes.js";
 import { albumRouter, ALBUM_ROUTE } from "./routes/albumRoutes.js";
 import { genresRouter, GENRES_ROUTE } from "./routes/genresRoutes.js";
 import { playlistRouter, PLAYLIST_ROUTE } from "./routes/playlistRoutes.js";
+import {
+  locationsRouter,
+  LOCATIONS_ROUTE,
+} from "./routes/worldLocationsRouter.js";
+
+import { songRouter, SONG_ROUTE } from "./routes/songRoutes.js";
 
 function createApp(configs) {
   // Create the express app
@@ -27,6 +33,9 @@ function registerRoutes(app) {
   app.use(`${ALBUM_ROUTE}`, albumRouter);
   app.use(`${GENRES_ROUTE}`, genresRouter);
   app.use(`${PLAYLIST_ROUTE}`, playlistRouter);
+  app.use(`${LOCATIONS_ROUTE}`, locationsRouter);
+  app.use("/doc", swaggerUi.serve, swaggerUi.setup(docSpecs));
+  //console.log("docSpecs", docSpecs);
 }
 
 export default createApp;

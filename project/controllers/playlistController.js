@@ -16,9 +16,13 @@ const playlistGetByID = (req, res) => {
   const id = req.params.id;
   Playlist.findById(id)
     .then((result) => {
-      result.populate("songs").then((result) => {
-        res.status(200).send(result);
-      });
+      result
+        .populate("songs", null, {
+          isDeleted: false,
+        })
+        .then((result) => {
+          res.status(200).send(result);
+        });
     })
     .catch((err) => {
       res.status(400).send(err);
@@ -30,6 +34,10 @@ const playlistGetByUserId = (req, res) => {
   Playlist.find({
     $or: [{ owner: userId }, { collaborators: userId }],
   })
+    .populate("songs", null, {
+      isDeleted: false,
+    })
+    .select("-_id")
     .then((result) => {
       res.status(200).send(result);
     })
@@ -42,7 +50,6 @@ const playlistUpdate = (req, res) => {
   const id = req.params.id;
   Playlist.findByIdAndUpdate(id, req.body, { new: true })
     .then((result) => {
-      console.log(result);
       res.status(200).send(result);
     })
     .catch((err) => {
@@ -50,4 +57,25 @@ const playlistUpdate = (req, res) => {
     });
 };
 
-export { playlistCreate, playlistGetByID, playlistGetByUserId, playlistUpdate };
+const playlistGetAll = (req, res) => {
+  Playlist.find({
+    isDeleted: false,
+  })
+    .populate("songs", null, {
+      isDeleted: false,
+    })
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
+export {
+  playlistCreate,
+  playlistGetByID,
+  playlistGetByUserId,
+  playlistUpdate,
+  playlistGetAll,
+};
