@@ -5,7 +5,7 @@ const playlistSchema = new Schema(
   {
     title: { type: String, required: true },
     description: { type: String, required: true },
-    owner: { type: Schema.Types.ObjectId, ref: "artists" },
+    owner: { type: Schema.Types.ObjectId, ref: "artists", required: true },
     collaborators: [{ type: Schema.Types.ObjectId, ref: "artists" }],
     plays: { type: Number, required: true, default: 0 },
     songs: [{ type: Schema.Types.ObjectId, ref: "songs" }],

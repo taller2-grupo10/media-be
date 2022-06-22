@@ -1,5 +1,5 @@
 import { Album } from "../models/album.js";
-import { fileUpload } from "../helpers/musicUploadHelper.js";
+import { fileUpload } from "../helpers/fileUploadHelper.js";
 
 const albumCreate = async (req, res) => {
   let data = req.files.filter((file) => file.fieldname === "data");
@@ -45,7 +45,7 @@ const albumUpdate = (req, res) => {
 
 const albumGetByArtistId = (req, res) => {
   const artistId = req.params.artistId;
-  Album.find({ "artist.artist": artistId })
+  Album.find({ "artist.artist": artistId, isDeleted: false })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -55,7 +55,7 @@ const albumGetByArtistId = (req, res) => {
 };
 
 // album get by name with contains
-const albumGetByName = (req, res) => {
+/*const albumGetByName = (req, res) => {
   const name = req.params.name;
   Album.find({ title: { $regex: name, $options: "i" } })
     .then((result) => {
@@ -64,7 +64,7 @@ const albumGetByName = (req, res) => {
     .catch((err) => {
       res.status(400).send(err);
     });
-};
+};*/
 
 const albumGetByID = (req, res) => {
   const id = req.params.id;
@@ -78,7 +78,7 @@ const albumGetByID = (req, res) => {
 };
 
 const albumGetAll = (req, res) => {
-  Album.find()
+  Album.find({ isDeleted: false })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -89,7 +89,7 @@ const albumGetAll = (req, res) => {
 
 const albumGetByGenre = (req, res) => {
   const genre = req.params.genre;
-  Album.find({ genres: genre })
+  Album.find({ genres: genre, isDeleted: false })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -102,7 +102,7 @@ export {
   albumCreate,
   albumUpdate,
   albumGetByArtistId,
-  albumGetByName,
+  //albumGetByName,
   albumGetByID,
   albumGetAll,
   albumGetByGenre,

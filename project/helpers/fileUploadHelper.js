@@ -1,7 +1,13 @@
 import { initializeApp } from "firebase/app";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import "firebase/storage";
+import {
+  getStorage,
+  ref,
+  getDownloadURL,
+  uploadBytesResumable,
+} from "firebase/storage";
 
-export const fileUpload = async (musicFile, musicTitle) => {
+export const fileUpload = async (file, fileTitle) => {
   // Set the configuration
   // TODO: This config is to test. Replace with app's config object
   const firebaseConfig = {
@@ -16,10 +22,11 @@ export const fileUpload = async (musicFile, musicTitle) => {
   initializeApp(firebaseConfig);
   const storage = getStorage();
   // Get a reference to the storage service, which is used to create references in your storage bucket
-  const storageRef = ref(storage, musicTitle);
+  const storageRef = ref(storage, fileTitle);
 
-  await uploadBytes(storageRef, musicFile);
-  let songUrl = await getDownloadURL(storageRef); // we can also obtain the url later with the storage ref
+  await uploadBytesResumable(storageRef, file);
+  let fileUrl = await getDownloadURL(storageRef); // we can also obtain the url later with the storage ref
 
-  return songUrl;
+  return fileUrl;
 };
+

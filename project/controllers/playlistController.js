@@ -33,6 +33,7 @@ const playlistGetByUserId = (req, res) => {
   const userId = req.params.userId;
   Playlist.find({
     $or: [{ owner: userId }, { collaborators: userId }],
+    isDeleted: false,
   })
     .populate("songs", null, {
       isDeleted: false,
