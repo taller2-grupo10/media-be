@@ -14,7 +14,6 @@ import {
 
 import { songRouter, SONG_ROUTE } from "./routes/songRoutes.js";
 
-
 function createApp(configs) {
   // Create the express app
   const app = express();
@@ -65,7 +64,7 @@ function registerRoutes(app) {
   app.use(`${PLAYLIST_ROUTE}`, playlistRouter);
   app.use(`${LOCATIONS_ROUTE}`, locationsRouter);
   app.use("/doc", swaggerUi.serve, swaggerUi.setup(docSpecs));
-  console.log("docSpecs", docSpecs);
+  //console.log("docSpecs", docSpecs);
 }
 
 export default createApp;
