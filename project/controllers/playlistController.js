@@ -38,7 +38,6 @@ const playlistGetByUserId = (req, res) => {
     .populate("songs", null, {
       isDeleted: false,
     })
-    .select("-_id")
     .then((result) => {
       res.status(200).send(result);
     })
