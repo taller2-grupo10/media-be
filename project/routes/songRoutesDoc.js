@@ -47,6 +47,8 @@
  *            $ref: '#/components/schemas/Genre'
  *          url:
  *            type: string
+ *          subscriptionLevel:
+ *            type: number
  *          createdAt:
  *            type: string
  *            format: date-time
