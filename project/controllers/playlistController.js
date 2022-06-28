@@ -14,11 +14,18 @@ const playlistCreate = (req, res) => {
 
 const playlistGetByID = (req, res) => {
   const id = req.params.id;
+  let subscriptionLevelQuery;
+  if (Object.keys(req.query).length > 0) {
+    subscriptionLevelQuery = { $lte: +req.query.subscriptionLevel };
+  }
   Playlist.findById(id)
     .then((result) => {
       result
         .populate("songs", null, {
-          isDeleted: false,
+          $and: [
+            { isDeleted: false },
+            { subscriptionLevel: subscriptionLevelQuery ?? { $lte: 0 } },
+          ],
         })
         .then((result) => {
           res.status(200).send(result);
@@ -31,12 +38,19 @@ const playlistGetByID = (req, res) => {
 
 const playlistGetByUserId = (req, res) => {
   const userId = req.params.userId;
+  let subscriptionLevelQuery;
+  if (Object.keys(req.query).length > 0) {
+    subscriptionLevelQuery = { $lte: +req.query.subscriptionLevel };
+  }
   Playlist.find({
     $or: [{ owner: userId }, { collaborators: userId }],
     isDeleted: false,
   })
     .populate("songs", null, {
-      isDeleted: false,
+      $and: [
+        { isDeleted: false },
+        { subscriptionLevel: subscriptionLevelQuery ?? { $lte: 0 } },
+      ],
     })
     .then((result) => {
       res.status(200).send(result);
