@@ -14,6 +14,8 @@ import {
 
 import { songRouter, SONG_ROUTE } from "./routes/songRoutes.js";
 
+import axios from "axios";
+
 function createApp(configs) {
   // Create the express app
   const app = express();
@@ -22,6 +24,7 @@ function createApp(configs) {
   app.use(cors()); //cors.init_app(app)
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(tokenValidator);
   registerRoutes(app);
   return app;
 }
@@ -65,6 +68,29 @@ function registerRoutes(app) {
   app.use(`${LOCATIONS_ROUTE}`, locationsRouter);
   app.use("/doc", swaggerUi.serve, swaggerUi.setup(docSpecs));
   //console.log("docSpecs", docSpecs);
+}
+
+async function isTokenValid(token) {
+  const urlValidator = process.env.VALIDATION_URL + token;
+  try {
+    const response = await axios.get(urlValidator);
+    return response.status === 200;
+  } catch (err) {
+    return false;
+  }
+}
+
+async function tokenValidator(req, res, next) {
+  let key = req.headers.api_media;
+  if (!key) {
+    res.status(401).send({ error: "Unauthorized" });
+    return;
+  }
+  if (!(await isTokenValid(key))) {
+    res.status(401).send({ error: "Unauthorized" });
+    return;
+  }
+  next();
 }
 
 export default createApp;
