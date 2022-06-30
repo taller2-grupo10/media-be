@@ -45,12 +45,21 @@ const songUpdate = (req, res) => {
 
 const songGetByArtistId = (req, res) => {
   const artistId = req.params.artistId;
+  let subscriptionLevelQuery;
+  if (Object.keys(req.query).length > 0) {
+    subscriptionLevelQuery = { $lte: +req.query.subscriptionLevel };
+  }
   Song.find({
-    $or: [
-      { "artists.artist": artistId },
-      { "artists.collaborators": artistId },
+    $and: [
+      {
+        $or: [
+          { "artists.artist": artistId },
+          { "artists.collaborators": artistId },
+        ],
+      },
+      { isDeleted: false },
+      { subscriptionLevel: subscriptionLevelQuery ?? { $lte: 0 } },
     ],
-    isDeleted: false,
   })
     .then((result) => {
       res.status(200).send(result);
@@ -62,7 +71,17 @@ const songGetByArtistId = (req, res) => {
 
 const songGetByAlbumId = (req, res) => {
   const albumId = req.params.albumId;
-  Song.find({ "album.album": albumId, isDeleted: false })
+  let subscriptionLevelQuery;
+  if (Object.keys(req.query).length > 0) {
+    subscriptionLevelQuery = { $lte: +req.query.subscriptionLevel };
+  }
+  Song.find({
+    $and: [
+      { "album.album": albumId },
+      { isDeleted: false },
+      { subscriptionLevel: subscriptionLevelQuery ?? { $lte: 0 } },
+    ],
+  })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -74,7 +93,21 @@ const songGetByAlbumId = (req, res) => {
 // song get by name with contains
 const songGetByName = (req, res) => {
   const name = req.params.name;
-  Song.find({ title: { $regex: name, $options: "i" }, isDeleted: false })
+  let subscriptionLevelQuery = null;
+  if (Object.keys(req.query).length > 0) {
+    subscriptionLevelQuery = { $lte: +req.query.subscriptionLevel };
+  }
+  Song.find({
+    $and: [
+      {
+        title: { $regex: name, $options: "i" },
+      },
+      { isDeleted: false },
+      {
+        subscriptionLevel: subscriptionLevelQuery ?? { $lte: 0 },
+      },
+    ],
+  })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -95,7 +128,16 @@ const songGetByID = (req, res) => {
 };
 
 const songGetAll = (req, res) => {
-  Song.find({ isDeleted: false })
+  let subscriptionLevelQuery;
+  if (Object.keys(req.query).length > 0) {
+    subscriptionLevelQuery = { $lte: +req.query.subscriptionLevel };
+  }
+  Song.find({
+    $and: [
+      { isDeleted: false },
+      { subscriptionLevel: subscriptionLevelQuery ?? { $lte: 0 } },
+    ],
+  })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -106,7 +148,17 @@ const songGetAll = (req, res) => {
 
 const songGetByGenre = (req, res) => {
   const genre = req.params.genre;
-  Song.find({ genres: genre, isDeleted: false })
+  let subscriptionLevelQuery;
+  if (Object.keys(req.query).length > 0) {
+    subscriptionLevelQuery = { $lte: +req.query.subscriptionLevel };
+  }
+  Song.find({
+    $and: [
+      { genres: genre },
+      { isDeleted: false },
+      { subscriptionLevel: subscriptionLevelQuery ?? { $lte: 0 } },
+    ],
+  })
     .then((result) => {
       res.status(200).send(result);
     })
