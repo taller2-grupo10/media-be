@@ -58,6 +58,7 @@ const songGetByArtistId = (req, res) => {
         ],
       },
       { isDeleted: false },
+      { isActive: true },
       { subscriptionLevel: subscriptionLevelQuery ?? { $lte: 0 } },
     ],
   })
@@ -79,6 +80,7 @@ const songGetByAlbumId = (req, res) => {
     $and: [
       { "album.album": albumId },
       { isDeleted: false },
+      { isActive: true },
       { subscriptionLevel: subscriptionLevelQuery ?? { $lte: 0 } },
     ],
   })
@@ -103,6 +105,7 @@ const songGetByName = (req, res) => {
         title: { $regex: name, $options: "i" },
       },
       { isDeleted: false },
+      { isActive: true },
       {
         subscriptionLevel: subscriptionLevelQuery ?? { $lte: 0 },
       },
@@ -118,7 +121,7 @@ const songGetByName = (req, res) => {
 
 const songGetByID = (req, res) => {
   const id = req.params.id;
-  Song.findById(id)
+  Song.find({ _id: id, isDeleted: false, isActive: true })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -135,6 +138,7 @@ const songGetAll = (req, res) => {
   Song.find({
     $and: [
       { isDeleted: false },
+      { isActive: true },
       { subscriptionLevel: subscriptionLevelQuery ?? { $lte: 0 } },
     ],
   })
@@ -156,9 +160,20 @@ const songGetByGenre = (req, res) => {
     $and: [
       { genres: genre },
       { isDeleted: false },
+      { isActive: true },
       { subscriptionLevel: subscriptionLevelQuery ?? { $lte: 0 } },
     ],
   })
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
+const songGetAllNoFilter = (req, res) => {
+  Song.find({})
     .then((result) => {
       res.status(200).send(result);
     })
@@ -176,4 +191,5 @@ export {
   songGetByID,
   songGetAll,
   songGetByGenre,
+  songGetAllNoFilter,
 };

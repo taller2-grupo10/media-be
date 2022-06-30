@@ -61,6 +61,9 @@
  *          isDeleted:
  *            type: boolean
  *            default: false
+ *          isActive:
+ *            type: boolean
+ *            default: true
  *
  *      SongResponse:
  *        allOf:
