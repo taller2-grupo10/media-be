@@ -249,7 +249,7 @@ songRouter.get("/genre/:genre", songGetByGenre);
  *     tags: [Songs]
  *     description: Get songs by a subscription level
  *     parameters:
- *       - name: subsscriptionLevel
+ *       - name: subscriptionLevel
  *         in: path
  *         description: subscription level to get its songs
  *         required: true
