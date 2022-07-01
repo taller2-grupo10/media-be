@@ -34,6 +34,7 @@ const songSchema = new Schema(
       enum: worldLocations,
     },
     subscriptionLevel: { type: Number, required: false, default: 0 },
+    isActive: { type: Boolean, required: false, default: true },
     isDeleted: { type: Boolean, required: false, default: false },
   },
   {

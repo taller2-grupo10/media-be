@@ -10,6 +10,7 @@ const playlistSchema = new Schema(
     plays: { type: Number, required: true, default: 0 },
     songs: [{ type: Schema.Types.ObjectId, ref: "songs" }],
     isDeleted: { type: Boolean, required: false, default: false },
+    isActive: { type: Boolean, required: false, default: true },
   },
   {
     timestamps: true,

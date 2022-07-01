@@ -14,17 +14,17 @@ const playlistCreate = (req, res) => {
 
 const playlistGetByID = (req, res) => {
   const id = req.params.id;
-  let subscriptionLevelQuery;
-  if (Object.keys(req.query).length > 0) {
-    subscriptionLevelQuery = { $lte: +req.query.subscriptionLevel };
-  }
-  Playlist.findById(id)
+  let subscriptionLevelQuery = req.query.subscriptionLevel
+    ? { $lte: +req.query.subscriptionLevel }
+    : { $lte: 0 };
+  Playlist.findOne({ _id: id, isDeleted: false, isActive: true })
     .then((result) => {
       result
         .populate("songs", null, {
           $and: [
             { isDeleted: false },
-            { subscriptionLevel: subscriptionLevelQuery ?? { $lte: 0 } },
+            { isActive: true },
+            { subscriptionLevel: subscriptionLevelQuery },
           ],
         })
         .then((result) => {
@@ -38,18 +38,19 @@ const playlistGetByID = (req, res) => {
 
 const playlistGetByUserId = (req, res) => {
   const userId = req.params.userId;
-  let subscriptionLevelQuery;
-  if (Object.keys(req.query).length > 0) {
-    subscriptionLevelQuery = { $lte: +req.query.subscriptionLevel };
-  }
+  let subscriptionLevelQuery = req.query.subscriptionLevel
+    ? { $lte: +req.query.subscriptionLevel }
+    : { $lte: 0 };
   Playlist.find({
     $or: [{ owner: userId }, { collaborators: userId }],
     isDeleted: false,
+    isActive: true,
   })
     .populate("songs", null, {
       $and: [
         { isDeleted: false },
-        { subscriptionLevel: subscriptionLevelQuery ?? { $lte: 0 } },
+        { isActive: true },
+        { subscriptionLevel: subscriptionLevelQuery },
       ],
     })
     .then((result) => {
@@ -73,11 +74,22 @@ const playlistUpdate = (req, res) => {
 
 const playlistGetAll = (req, res) => {
   Playlist.find({
-    isDeleted: false,
+    $and: [{ isDeleted: false }, { isActive: true }],
   })
     .populate("songs", null, {
-      isDeleted: false,
+      $and: [{ isDeleted: false }, { isActive: true }],
     })
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
+const playlistGetAllNoFilter = (req, res) => {
+  Playlist.find({})
+    .populate("songs", null, {})
     .then((result) => {
       res.status(200).send(result);
     })
@@ -92,4 +104,5 @@ export {
   playlistGetByUserId,
   playlistUpdate,
   playlistGetAll,
+  playlistGetAllNoFilter,
 };

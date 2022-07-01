@@ -45,10 +45,9 @@ const songUpdate = (req, res) => {
 
 const songGetByArtistId = (req, res) => {
   const artistId = req.params.artistId;
-  let subscriptionLevelQuery;
-  if (Object.keys(req.query).length > 0) {
-    subscriptionLevelQuery = { $lte: +req.query.subscriptionLevel };
-  }
+  let subscriptionLevelQuery = req.query.subscriptionLevel
+    ? { $lte: +req.query.subscriptionLevel }
+    : { $lte: 0 };
   Song.find({
     $and: [
       {
@@ -58,7 +57,8 @@ const songGetByArtistId = (req, res) => {
         ],
       },
       { isDeleted: false },
-      { subscriptionLevel: subscriptionLevelQuery ?? { $lte: 0 } },
+      { isActive: true },
+      { subscriptionLevel: subscriptionLevelQuery },
     ],
   })
     .then((result) => {
@@ -71,15 +71,15 @@ const songGetByArtistId = (req, res) => {
 
 const songGetByAlbumId = (req, res) => {
   const albumId = req.params.albumId;
-  let subscriptionLevelQuery;
-  if (Object.keys(req.query).length > 0) {
-    subscriptionLevelQuery = { $lte: +req.query.subscriptionLevel };
-  }
+  let subscriptionLevelQuery = req.query.subscriptionLevel
+    ? { $lte: +req.query.subscriptionLevel }
+    : { $lte: 0 };
   Song.find({
     $and: [
       { "album.album": albumId },
       { isDeleted: false },
-      { subscriptionLevel: subscriptionLevelQuery ?? { $lte: 0 } },
+      { isActive: true },
+      { subscriptionLevel: subscriptionLevelQuery },
     ],
   })
     .then((result) => {
@@ -93,19 +93,15 @@ const songGetByAlbumId = (req, res) => {
 // song get by name with contains
 const songGetByName = (req, res) => {
   const name = req.params.name;
-  let subscriptionLevelQuery = null;
-  if (Object.keys(req.query).length > 0) {
-    subscriptionLevelQuery = { $lte: +req.query.subscriptionLevel };
-  }
+  let subscriptionLevelQuery = req.query.subscriptionLevel
+    ? { $lte: +req.query.subscriptionLevel }
+    : { $lte: 0 };
   Song.find({
     $and: [
-      {
-        title: { $regex: name, $options: "i" },
-      },
+      { title: { $regex: name, $options: "i" } },
       { isDeleted: false },
-      {
-        subscriptionLevel: subscriptionLevelQuery ?? { $lte: 0 },
-      },
+      { isActive: true },
+      { subscriptionLevel: subscriptionLevelQuery },
     ],
   })
     .then((result) => {
@@ -118,7 +114,7 @@ const songGetByName = (req, res) => {
 
 const songGetByID = (req, res) => {
   const id = req.params.id;
-  Song.findById(id)
+  Song.findOne({ _id: id, isDeleted: false, isActive: true })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -128,14 +124,14 @@ const songGetByID = (req, res) => {
 };
 
 const songGetAll = (req, res) => {
-  let subscriptionLevelQuery;
-  if (Object.keys(req.query).length > 0) {
-    subscriptionLevelQuery = { $lte: +req.query.subscriptionLevel };
-  }
+  let subscriptionLevelQuery = req.query.subscriptionLevel
+    ? { $lte: +req.query.subscriptionLevel }
+    : { $lte: 0 };
   Song.find({
     $and: [
       { isDeleted: false },
-      { subscriptionLevel: subscriptionLevelQuery ?? { $lte: 0 } },
+      { isActive: true },
+      { subscriptionLevel: subscriptionLevelQuery },
     ],
   })
     .then((result) => {
@@ -146,17 +142,27 @@ const songGetAll = (req, res) => {
     });
 };
 
+const songGetAllNoFilter = (req, res) => {
+  Song.find({})
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
 const songGetByGenre = (req, res) => {
   const genre = req.params.genre;
-  let subscriptionLevelQuery;
-  if (Object.keys(req.query).length > 0) {
-    subscriptionLevelQuery = { $lte: +req.query.subscriptionLevel };
-  }
+  let subscriptionLevelQuery = req.query.subscriptionLevel
+    ? { $lte: +req.query.subscriptionLevel }
+    : { $lte: 0 };
   Song.find({
     $and: [
       { genres: genre },
       { isDeleted: false },
-      { subscriptionLevel: subscriptionLevelQuery ?? { $lte: 0 } },
+      { isActive: true },
+      { subscriptionLevel: subscriptionLevelQuery },
     ],
   })
     .then((result) => {
@@ -176,4 +182,5 @@ export {
   songGetByID,
   songGetAll,
   songGetByGenre,
+  songGetAllNoFilter,
 };

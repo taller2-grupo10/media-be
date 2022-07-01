@@ -9,6 +9,7 @@ import {
   songGetByID,
   songGetByName,
   songUpdate,
+  songGetAllNoFilter,
 } from "../controllers/songController.js";
 import "./songRoutesDoc.js";
 
@@ -195,6 +196,24 @@ songRouter.get("/:id", songGetByID);
  *                $ref: '#/components/schemas/SongResponse'
  */
 songRouter.get("/", songGetAll);
+
+/**
+ * @swagger
+ * /songs:
+ *   get:
+ *     summary: Get all songs without filtering
+ *     tags: [Songs]
+ *     description: Get all songs without filtering
+ *     responses:
+ *      '200':
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/SongResponse'
+ */
+songRouter.get("/noFilter", songGetAllNoFilter);
 
 /**
  * @swagger
