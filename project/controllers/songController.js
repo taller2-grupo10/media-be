@@ -173,6 +173,23 @@ const songGetByGenre = (req, res) => {
     });
 };
 
+const songGetBySubscriptionLevel = (req, res) => {
+  const subscriptionLevel = req.params.subscriptionLevel;
+  Song.find({
+    $and: [
+      { subscriptionLevel: subscriptionLevel },
+      { isDeleted: false },
+      { isActive: true },
+    ],
+  })
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
 export {
   songCreate,
   songUpdate,
@@ -183,4 +200,5 @@ export {
   songGetAll,
   songGetByGenre,
   songGetAllNoFilter,
+  songGetBySubscriptionLevel,
 };
