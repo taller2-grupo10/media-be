@@ -2,7 +2,6 @@ import express from "express";
 import {
   playlistCreate,
   playlistGetAll,
-  playlistGetAllNoFilter,
   playlistGetByID,
   playlistGetByUserId,
   playlistUpdate,
@@ -59,24 +58,6 @@ playlistRouter.post("/", playlistCreate);
  *                $ref: '#/components/schemas/PlaylistResponse'
  */
 playlistRouter.get("/", playlistGetAll);
-
-/**
- * @swagger
- * /playlists/all:
- *   get:
- *     summary: Get all playlists without filtering
- *     tags: [Playlists]
- *     description: Get all playlists without filtering
- *     responses:
- *      '200':
- *        content:
- *          application/json:
- *            schema:
- *              type: array
- *              items:
- *                $ref: '#/components/schemas/PlaylistResponse'
- */
-playlistRouter.get("/all", playlistGetAllNoFilter);
 
 /**
  * @swagger

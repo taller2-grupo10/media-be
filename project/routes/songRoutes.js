@@ -3,7 +3,6 @@ import multer from "multer";
 import {
   songCreate,
   songGetAll,
-  songGetAllNoFilter,
   songGetByAlbumId,
   songGetByArtistId,
   songGetByGenre,
@@ -196,24 +195,6 @@ songRouter.get("/:id", songGetByID);
  *                $ref: '#/components/schemas/SongResponse'
  */
 songRouter.get("/", songGetAll);
-
-/**
- * @swagger
- * /songs/all:
- *   get:
- *     summary: Get all songs without filtering
- *     tags: [Songs]
- *     description: Get all songs without filtering
- *     responses:
- *      '200':
- *        content:
- *          application/json:
- *            schema:
- *              type: array
- *              items:
- *                $ref: '#/components/schemas/SongResponse'
- */
-songRouter.get("/all", songGetAllNoFilter);
 
 /**
  * @swagger
