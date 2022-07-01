@@ -114,7 +114,7 @@ const songGetByName = (req, res) => {
 
 const songGetByID = (req, res) => {
   const id = req.params.id;
-  Song.find({ _id: id, isDeleted: false, isActive: true })
+  Song.findOne({ _id: id, isDeleted: false, isActive: true })
     .then((result) => {
       res.status(200).send(result);
     })
