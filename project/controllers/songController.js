@@ -127,16 +127,23 @@ const songGetAll = (req, res) => {
   let subscriptionLevelQuery = req.query.subscriptionLevel
     ? { $lte: +req.query.subscriptionLevel }
     : { $lte: 0 };
-  let isActiveQuery = req.query.isActive
-    ? { isActive: req.query.isActive }
-    : { isActive: true };
   Song.find({
     $and: [
       { isDeleted: false },
-      isActiveQuery,
+      { isActive: true },
       { subscriptionLevel: subscriptionLevelQuery },
     ],
   })
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
+const songGetAllNoFilter = (req, res) => {
+  Song.find({})
     .then((result) => {
       res.status(200).send(result);
     })
@@ -175,4 +182,5 @@ export {
   songGetByID,
   songGetAll,
   songGetByGenre,
+  songGetAllNoFilter,
 };

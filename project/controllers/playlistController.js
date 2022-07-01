@@ -73,15 +73,23 @@ const playlistUpdate = (req, res) => {
 };
 
 const playlistGetAll = (req, res) => {
-  let isActiveQuery = req.query.isActive
-    ? { isActive: req.query.isActive }
-    : { isActive: true };
   Playlist.find({
-    $and: [{ isDeleted: false }, isActiveQuery],
+    $and: [{ isDeleted: false }, { isActive: true }],
   })
     .populate("songs", null, {
-      $and: [{ isDeleted: false }, isActiveQuery],
+      $and: [{ isDeleted: false }, { isActive: true }],
     })
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
+const playlistGetAllNoFilter = (req, res) => {
+  Playlist.find({})
+    .populate("songs", null, {})
     .then((result) => {
       res.status(200).send(result);
     })
@@ -96,4 +104,5 @@ export {
   playlistGetByUserId,
   playlistUpdate,
   playlistGetAll,
+  playlistGetAllNoFilter,
 };
