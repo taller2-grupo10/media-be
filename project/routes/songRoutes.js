@@ -10,6 +10,7 @@ import {
   songGetByName,
   songUpdate,
   songGetAllNoFilter,
+  songGetBySubscriptionLevel,
 } from "../controllers/songController.js";
 import "./songRoutesDoc.js";
 
@@ -239,5 +240,30 @@ songRouter.get("/noFilter", songGetAllNoFilter);
  *                $ref: '#/components/schemas/SongResponse'
  */
 songRouter.get("/genre/:genre", songGetByGenre);
+
+/**
+ * @swagger
+ * /songs/subscription/{subscriptionLevel}:
+ *   get:
+ *     summary: Get songs by a subscription level
+ *     tags: [Songs]
+ *     description: Get songs by a subscription level
+ *     parameters:
+ *       - name: subsscriptionLevel
+ *         in: path
+ *         description: subscription level to get its songs
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *      '200':
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/SongResponse'
+ */
+songRouter.get("/subscription/:subscriptionLevel", songGetBySubscriptionLevel);
 
 export { songRouter, SONG_ROUTE };
