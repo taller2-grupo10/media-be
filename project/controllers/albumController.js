@@ -45,7 +45,16 @@ const albumUpdate = (req, res) => {
 
 const albumGetByArtistId = (req, res) => {
   const artistId = req.params.artistId;
-  Album.find({ "artist.artist": artistId, isDeleted: false })
+  let subscriptionLevelQuery = req.query.subscriptionLevel
+    ? { $lte: +req.query.subscriptionLevel }
+    : { $lte: 0 };
+  Album.find({
+    $and: [
+      { "artist.artist": artistId },
+      { isDeleted: false },
+      { subscriptionLevel: subscriptionLevelQuery },
+    ],
+  })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -88,8 +97,17 @@ const albumGetAll = (req, res) => {
 };
 
 const albumGetByGenre = (req, res) => {
+  let subscriptionLevelQuery = req.query.subscriptionLevel
+    ? { $lte: +req.query.subscriptionLevel }
+    : { $lte: 0 };
   const genre = req.params.genre;
-  Album.find({ genres: genre, isDeleted: false })
+  Album.find({
+    $and: [
+      { genres: genre },
+      { isDeleted: false },
+      { subscriptionLevel: subscriptionLevelQuery },
+    ],
+  })
     .then((result) => {
       res.status(200).send(result);
     })
