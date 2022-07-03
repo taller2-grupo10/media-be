@@ -3,6 +3,7 @@ import multer from "multer";
 import {
   albumCreate,
   albumGetAll,
+  albumGetAllNoFilter,
   albumGetByArtistId,
   albumGetByGenre,
   albumGetByID,
@@ -145,6 +146,24 @@ albumRouter.get("/:id", albumGetByID);
  *                $ref: '#/components/schemas/AlbumResponse'
  */
 albumRouter.get("/", albumGetAll);
+
+/**
+ * @swagger
+ * /albums:
+ *   get:
+ *     summary: Get all albums without filtering
+ *     tags: [Albums]
+ *     description: Get all albums without filtering
+ *     responses:
+ *      '200':
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/AlbumResponse'
+ */
+albumRouter.get("/", albumGetAllNoFilter);
 
 /**
  * @swagger
