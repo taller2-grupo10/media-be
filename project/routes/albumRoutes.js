@@ -149,7 +149,7 @@ albumRouter.get("/", albumGetAll);
 
 /**
  * @swagger
- * /albums:
+ * /albums/noFilter:
  *   get:
  *     summary: Get all albums without filtering
  *     tags: [Albums]
@@ -163,7 +163,7 @@ albumRouter.get("/", albumGetAll);
  *              items:
  *                $ref: '#/components/schemas/AlbumResponse'
  */
-albumRouter.get("/", albumGetAllNoFilter);
+albumRouter.get("/noFilter", albumGetAllNoFilter);
 
 /**
  * @swagger
