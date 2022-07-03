@@ -130,6 +130,23 @@ const albumGetByGenre = (req, res) => {
     });
 };
 
+const albumGetBySubscriptionLevel = (req, res) => {
+  const subscriptionLevel = req.params.subscriptionLevel;
+  Album.find({
+    $and: [
+      { subscriptionLevel: subscriptionLevel },
+      { isDeleted: false },
+      { isActive: true },
+    ],
+  })
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
 export {
   albumCreate,
   albumUpdate,
@@ -139,4 +156,5 @@ export {
   albumGetAll,
   albumGetByGenre,
   albumGetAllNoFilter,
+  albumGetBySubscriptionLevel,
 };

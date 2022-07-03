@@ -8,6 +8,7 @@ import {
   albumGetByGenre,
   albumGetByID,
   albumUpdate,
+  albumGetBySubscriptionLevel,
 } from "../controllers/albumController.js";
 import "./albumRoutesDoc.js";
 
@@ -189,5 +190,33 @@ albumRouter.get("/noFilter", albumGetAllNoFilter);
  *                $ref: '#/components/schemas/AlbumResponse'
  */
 albumRouter.get("/genre/:genre", albumGetByGenre);
+
+/**
+ * @swagger
+ * /albums/subscription/{subscriptionLevel}:
+ *   get:
+ *     summary: Get albums by a subscription level
+ *     tags: [Albums]
+ *     description: Get albums by a subscription level
+ *     parameters:
+ *       - name: subscriptionLevel
+ *         in: path
+ *         description: subscription level to get its albums
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *      '200':
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/AlbumResponse'
+ */
+albumRouter.get(
+  "/subscription/:subscriptionLevel",
+  albumGetBySubscriptionLevel,
+);
 
 export { albumRouter, ALBUM_ROUTE };
