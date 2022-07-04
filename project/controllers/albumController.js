@@ -53,6 +53,7 @@ const albumGetByArtistId = (req, res) => {
       { "artist.artist": artistId },
       { isDeleted: false },
       { subscriptionLevel: subscriptionLevelQuery },
+      { isActive: true },
     ],
   })
     .then((result) => {
@@ -77,7 +78,7 @@ const albumGetByArtistId = (req, res) => {
 
 const albumGetByID = (req, res) => {
   const id = req.params.id;
-  Album.findById(id)
+  Album.findOne({ _id: id, isDeleted: false, isActive: true })
     .then((result) => {
       res.status(200).send(result);
     })
@@ -87,7 +88,19 @@ const albumGetByID = (req, res) => {
 };
 
 const albumGetAll = (req, res) => {
-  Album.find({ isDeleted: false })
+  Album.find({
+    $and: [{ isDeleted: false }, { isActive: true }],
+  })
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
+const albumGetAllNoFilter = (req, res) => {
+  Album.find({})
     .then((result) => {
       res.status(200).send(result);
     })
@@ -106,6 +119,24 @@ const albumGetByGenre = (req, res) => {
       { genres: genre },
       { isDeleted: false },
       { subscriptionLevel: subscriptionLevelQuery },
+      { isActive: true },
+    ],
+  })
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
+const albumGetBySubscriptionLevel = (req, res) => {
+  const subscriptionLevel = req.params.subscriptionLevel;
+  Album.find({
+    $and: [
+      { subscriptionLevel: subscriptionLevel },
+      { isDeleted: false },
+      { isActive: true },
     ],
   })
     .then((result) => {
@@ -124,4 +155,6 @@ export {
   albumGetByID,
   albumGetAll,
   albumGetByGenre,
+  albumGetAllNoFilter,
+  albumGetBySubscriptionLevel,
 };

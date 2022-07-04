@@ -200,7 +200,7 @@ songRouter.get("/", songGetAll);
 
 /**
  * @swagger
- * /songs:
+ * /songs/noFilter:
  *   get:
  *     summary: Get all songs without filtering
  *     tags: [Songs]

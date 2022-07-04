@@ -3,10 +3,12 @@ import multer from "multer";
 import {
   albumCreate,
   albumGetAll,
+  albumGetAllNoFilter,
   albumGetByArtistId,
   albumGetByGenre,
   albumGetByID,
   albumUpdate,
+  albumGetBySubscriptionLevel,
 } from "../controllers/albumController.js";
 import "./albumRoutesDoc.js";
 
@@ -148,6 +150,24 @@ albumRouter.get("/", albumGetAll);
 
 /**
  * @swagger
+ * /albums/noFilter:
+ *   get:
+ *     summary: Get all albums without filtering
+ *     tags: [Albums]
+ *     description: Get all albums without filtering
+ *     responses:
+ *      '200':
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/AlbumResponse'
+ */
+albumRouter.get("/noFilter", albumGetAllNoFilter);
+
+/**
+ * @swagger
  * /albums/genre/{genre}:
  *   get:
  *     summary: Get albums by a genre name
@@ -170,5 +190,33 @@ albumRouter.get("/", albumGetAll);
  *                $ref: '#/components/schemas/AlbumResponse'
  */
 albumRouter.get("/genre/:genre", albumGetByGenre);
+
+/**
+ * @swagger
+ * /albums/subscription/{subscriptionLevel}:
+ *   get:
+ *     summary: Get albums by a subscription level
+ *     tags: [Albums]
+ *     description: Get albums by a subscription level
+ *     parameters:
+ *       - name: subscriptionLevel
+ *         in: path
+ *         description: subscription level to get its albums
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *      '200':
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/AlbumResponse'
+ */
+albumRouter.get(
+  "/subscription/:subscriptionLevel",
+  albumGetBySubscriptionLevel,
+);
 
 export { albumRouter, ALBUM_ROUTE };

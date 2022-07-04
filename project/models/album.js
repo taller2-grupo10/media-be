@@ -23,6 +23,7 @@ const albumSchema = new Schema(
     photoURL: { type: String, required: false },
     subscriptionLevel: { type: Number, required: false, default: 0 },
     isDeleted: { type: Boolean, required: false, default: false },
+    isActive: { type: Boolean, required: false, default: true },
   },
   {
     timestamps: true,
