@@ -78,7 +78,7 @@ const albumGetByArtistId = (req, res) => {
 
 const albumGetByID = (req, res) => {
   const id = req.params.id;
-  Album.findOne({ _id: id, isDeleted: false, isActive: true })
+  Album.findById(id)
     .then((result) => {
       res.status(200).send(result);
     })

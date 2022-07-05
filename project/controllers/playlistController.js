@@ -17,7 +17,7 @@ const playlistGetByID = (req, res) => {
   let subscriptionLevelQuery = req.query.subscriptionLevel
     ? { $lte: +req.query.subscriptionLevel }
     : { $lte: 0 };
-  Playlist.findOne({ _id: id, isDeleted: false, isActive: true })
+  Playlist.findById(id)
     .then((result) => {
       result
         .populate("songs", null, {
