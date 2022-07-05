@@ -9,7 +9,6 @@ import {
 
 export const fileUpload = async (file, fileTitle) => {
   // Set the configuration
-  // TODO: This config is to test. Replace with app's config object
   const firebaseConfig = {
     apiKey: process.env.STORAGE_API_KEY,
     authDomain: process.env.STORAGE_AUTH_DOMAIN,
@@ -29,4 +28,3 @@ export const fileUpload = async (file, fileTitle) => {
 
   return fileUrl;
 };
-

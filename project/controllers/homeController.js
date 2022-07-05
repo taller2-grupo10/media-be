@@ -119,10 +119,13 @@ const homeData = async (req, res) => {
     allAlbums = [...allAlbums, ...allOtherAlbums];
   }
 
+  // Send filtering duplicates
   res.status(200).send({
-    songs: allSongs,
-    playlists: allPlaylists,
-    albums: allAlbums,
+    songs: [...new Map(allSongs.map((v) => [JSON.stringify(v), v])).values()],
+    playlists: [
+      ...new Map(allPlaylists.map((v) => [JSON.stringify(v), v])).values(),
+    ],
+    albums: [...new Map(allAlbums.map((v) => [JSON.stringify(v), v])).values()],
   });
 };
 

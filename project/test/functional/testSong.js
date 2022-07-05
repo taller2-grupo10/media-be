@@ -423,4 +423,104 @@ describe("Songs tests (removes all songs before each test)", () => {
         });
     });
   });
+
+  describe("Get songs by sub level", () => {
+    it("Get songs by sub level OK", (done) => {
+      const artist = new Artist({ name: "Pepito", uid: 1 });
+      artist.save().then(() => {
+        const album = new Album({
+          title: "Album Pepito",
+          artist: { artist: artist._id, name: artist.name },
+        });
+        album.save().then(() => {
+          const song = new Song({
+            title: "Song Pepito",
+            artists: { artist: artist._id, name: artist.name },
+            album: { album: album._id, name: album.title },
+            url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            genres: ["Rock"],
+            subscriptionLevel: 1,
+          });
+          song.save().then(() => {
+            chai
+              .request(testUrl)
+              .get(`/songs/subscription/1`)
+              .end((err, res) => {
+                if (err) done(err);
+                expect(res.status).to.equal(200);
+                expect(res.body.length).to.equal(1);
+                expect(res.body[0].subscriptionLevel).to.equal(1);
+                done();
+              });
+          });
+        });
+      });
+    });
+  });
+
+  describe("Get all songs without filter", () => {
+    it("Should return all deleted songs", (done) => {
+      const artist = new Artist({ name: "Pepito", uid: 1 });
+      artist.save().then(() => {
+        const album = new Album({
+          title: "Album Pepito",
+          artist: { artist: artist._id, name: artist.name },
+        });
+        album.save().then(() => {
+          const song = new Song({
+            title: "Song Pepito",
+            artists: { artist: artist._id, name: artist.name },
+            album: { album: album._id, name: album.title },
+            url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            genres: ["Rock"],
+            subscriptionLevel: 1,
+            isDeleted: true,
+          });
+          song.save().then(() => {
+            chai
+              .request(testUrl)
+              .get(`/songs/noFilter/all`)
+              .end((err, res) => {
+                if (err) done(err);
+                expect(res.status).to.equal(200);
+                expect(res.body.length).to.equal(1);
+                done();
+              });
+          });
+        });
+      });
+    });
+
+    it("Should return all deleted songs", (done) => {
+      const artist = new Artist({ name: "Pepito", uid: 1 });
+      artist.save().then(() => {
+        const album = new Album({
+          title: "Album Pepito",
+          artist: { artist: artist._id, name: artist.name },
+        });
+        album.save().then(() => {
+          const song = new Song({
+            title: "Song Pepito",
+            artists: { artist: artist._id, name: artist.name },
+            album: { album: album._id, name: album.title },
+            url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            genres: ["Rock"],
+            subscriptionLevel: 1,
+            isActive: false,
+          });
+          song.save().then(() => {
+            chai
+              .request(testUrl)
+              .get(`/songs/noFilter/all`)
+              .end((err, res) => {
+                if (err) done(err);
+                expect(res.status).to.equal(200);
+                expect(res.body.length).to.equal(1);
+                done();
+              });
+          });
+        });
+      });
+    });
+  });
 });

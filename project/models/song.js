@@ -44,7 +44,3 @@ const songSchema = new Schema(
 );
 
 export const Song = mongoose.model("songs", songSchema);
-
-/*
-on edit: song.artist_name = song.artist.name (must be updated first)
-*/
