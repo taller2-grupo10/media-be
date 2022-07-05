@@ -48,20 +48,49 @@ const homeData = async (req, res) => {
     allSongs = [...allSongs, ...randomSongs];
   }
 
-  // find all artist's playlists
-  let allPlaylists = await Playlist.find({
-    $or: [{ owner: artistId }, { collaborators: artistId }],
-    isDeleted: false,
-    isActive: true,
-  })
-    .limit(15)
-    .populate("songs", null, {
+  let allPlaylists = [];
+  // find all playlists
+  for (let i = 0; i < artist.genres.length; i++) {
+    let artistGenre = artist.genres[i];
+    let result = await Playlist.find({
+      $and: [{ isDeleted: false, isActive: true }],
+    }).populate("songs", null, {
       $and: [
         { isDeleted: false },
         { isActive: true },
         { subscriptionLevel: subscriptionLevelQuery },
       ],
     });
+    //filter all playlists that don't have songs with genre = artistGenre or location = artist.location
+    result = result.filter((playlist) => {
+      for (let i = 0; i < playlist.songs.length; i++) {
+        let song = playlist.songs[i];
+        if (
+          song.genres.includes(artistGenre) ||
+          song.location === artist.location
+        )
+          return true;
+      }
+      return false;
+    });
+    allPlaylists = [...allPlaylists, ...result];
+  }
+
+  // if no playlists found, pick random playlists
+  if (allPlaylists.length === 0) {
+    let randomPlaylists = await Playlist.find({
+      $and: [{ isDeleted: false, isActive: true }],
+    })
+      .populate("songs", null, {
+        $and: [
+          { isDeleted: false },
+          { isActive: true },
+          { subscriptionLevel: subscriptionLevelQuery },
+        ],
+      })
+      .limit(15);
+    allPlaylists = [...allPlaylists, ...randomPlaylists];
+  }
 
   // iterate all artist's genres and find all albums with that genre
   let allAlbums = [];
