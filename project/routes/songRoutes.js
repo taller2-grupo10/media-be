@@ -200,7 +200,7 @@ songRouter.get("/", songGetAll);
 
 /**
  * @swagger
- * /songs/noFilter:
+ * /songs/noFilter/all:
  *   get:
  *     summary: Get all songs without filtering
  *     tags: [Songs]
@@ -214,7 +214,7 @@ songRouter.get("/", songGetAll);
  *              items:
  *                $ref: '#/components/schemas/SongResponse'
  */
-songRouter.get("/noFilter", songGetAllNoFilter);
+songRouter.get("/noFilter/all", songGetAllNoFilter);
 
 /**
  * @swagger

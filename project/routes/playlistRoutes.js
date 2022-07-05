@@ -62,7 +62,7 @@ playlistRouter.get("/", playlistGetAll);
 
 /**
  * @swagger
- * /playlists/noFilter:
+ * /playlists/noFilter/all:
  *   get:
  *     summary: Get all playlists without filtering
  *     tags: [Playlists]
@@ -76,7 +76,7 @@ playlistRouter.get("/", playlistGetAll);
  *              items:
  *                $ref: '#/components/schemas/PlaylistResponse'
  */
-playlistRouter.get("/noFilter", playlistGetAllNoFilter);
+playlistRouter.get("/noFilter/all", playlistGetAllNoFilter);
 
 /**
  * @swagger
