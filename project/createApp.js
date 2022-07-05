@@ -7,6 +7,7 @@ import { albumRouter, ALBUM_ROUTE } from "./routes/albumRoutes.js";
 import { artistRouter, ARTIST_ROUTE } from "./routes/artistRoutes.js";
 import { genresRouter, GENRES_ROUTE } from "./routes/genresRoutes.js";
 import { playlistRouter, PLAYLIST_ROUTE } from "./routes/playlistRoutes.js";
+import { homeRouter, HOME_ROUTE } from "./routes/homeRoutes.js";
 import {
   locationsRouter,
   LOCATIONS_ROUTE,
@@ -66,8 +67,8 @@ function registerRoutes(app) {
   app.use(`${GENRES_ROUTE}`, genresRouter);
   app.use(`${PLAYLIST_ROUTE}`, playlistRouter);
   app.use(`${LOCATIONS_ROUTE}`, locationsRouter);
+  app.use(`${HOME_ROUTE}`, homeRouter);
   app.use("/doc", swaggerUi.serve, swaggerUi.setup(docSpecs));
-  //console.log("docSpecs", docSpecs);
 }
 
 async function isTokenValid(token) {
