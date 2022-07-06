@@ -11,6 +11,7 @@ import {
   songUpdate,
   songGetAllNoFilter,
   songGetBySubscriptionLevel,
+  songGetByAlbumIdNoFilter,
 } from "../controllers/songController.js";
 import "./songRoutesDoc.js";
 
@@ -131,6 +132,31 @@ songRouter.get("/artistId/:artistId", songGetByArtistId);
  *                $ref: '#/components/schemas/SongResponse'
  */
 songRouter.get("/albumId/:albumId", songGetByAlbumId);
+
+/**
+ * @swagger
+ * /songs/albumId/noFilter/{id}:
+ *   get:
+ *     summary: Get songs by an album id without filtering
+ *     tags: [Songs]
+ *     description: Get songs by an album id without filtering
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: id of the album to get their songs
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *      '200':
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/SongResponse'
+ */
+songRouter.get("/albumId/noFilter/:albumId", songGetByAlbumIdNoFilter);
 
 /**
  * @swagger
