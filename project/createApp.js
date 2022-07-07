@@ -82,6 +82,12 @@ async function isTokenValid(token) {
 }
 
 async function tokenValidator(req, res, next) {
+  /* Avoid checking token on test environment */
+  if (process.env.TESTING === "True") {
+    next();
+    return;
+  }
+
   let key = req.headers.api_media;
   if (!key) {
     res.status(401).send({ error: "Unauthorized" });

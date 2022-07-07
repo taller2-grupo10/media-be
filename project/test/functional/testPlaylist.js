@@ -280,4 +280,125 @@ describe("Playlists tests (removes all playlists before each test)", () => {
         });
     });
   });
+
+  describe("Playlists get all", () => {
+    it("Should return all playlists", (done) => {
+      const artist = new Artist({ name: "Pepito", uid: 1 });
+      artist.save().then(() => {
+        const album = new Album({
+          title: "Album Pepito",
+          artist: { artist: artist._id, name: artist.name },
+        });
+        album.save().then(() => {
+          const song = new Song({
+            title: "Song Pepito",
+            artists: { artist: artist._id, name: artist.name },
+            album: { album: album._id, name: album.title },
+            url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          });
+          song.save().then(() => {
+            const playlist = new Playlist({
+              title: "Playlist Pepito",
+              description: "Playlist Pepito",
+              owner: artist._id,
+              songs: [song._id],
+            });
+            playlist.save().then(() => {
+              chai
+                .request(testUrl)
+                .get(`/playlists`)
+                .end((err, res) => {
+                  if (err) done(err);
+                  expect(res.status).to.equal(200);
+                  expect(res.body).to.have.lengthOf(1);
+                  expect(res.body[0].title).to.equal("Playlist Pepito");
+                  expect(res.body[0].songs).to.have.lengthOf(1);
+                  done();
+                });
+            });
+          });
+        });
+      });
+    });
+
+    it("Should return all deleted playlists", (done) => {
+      const artist = new Artist({ name: "Pepito", uid: 1 });
+      artist.save().then(() => {
+        const album = new Album({
+          title: "Album Pepito",
+          artist: { artist: artist._id, name: artist.name },
+        });
+        album.save().then(() => {
+          const song = new Song({
+            title: "Song Pepito",
+            artists: { artist: artist._id, name: artist.name },
+            album: { album: album._id, name: album.title },
+            url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          });
+          song.save().then(() => {
+            const playlist = new Playlist({
+              title: "Playlist Pepito",
+              description: "Playlist Pepito",
+              owner: artist._id,
+              songs: [song._id],
+              isDeleted: true,
+            });
+            playlist.save().then(() => {
+              chai
+                .request(testUrl)
+                .get(`/playlists/noFilter/all`)
+                .end((err, res) => {
+                  if (err) done(err);
+                  expect(res.status).to.equal(200);
+                  expect(res.body).to.have.lengthOf(1);
+                  expect(res.body[0].title).to.equal("Playlist Pepito");
+                  expect(res.body[0].songs).to.have.lengthOf(1);
+                  done();
+                });
+            });
+          });
+        });
+      });
+    });
+
+    it("Should return all inactive playlists", (done) => {
+      const artist = new Artist({ name: "Pepito", uid: 1 });
+      artist.save().then(() => {
+        const album = new Album({
+          title: "Album Pepito",
+          artist: { artist: artist._id, name: artist.name },
+        });
+        album.save().then(() => {
+          const song = new Song({
+            title: "Song Pepito",
+            artists: { artist: artist._id, name: artist.name },
+            album: { album: album._id, name: album.title },
+            url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+          });
+          song.save().then(() => {
+            const playlist = new Playlist({
+              title: "Playlist Pepito",
+              description: "Playlist Pepito",
+              owner: artist._id,
+              songs: [song._id],
+              isActive: false,
+            });
+            playlist.save().then(() => {
+              chai
+                .request(testUrl)
+                .get(`/playlists/noFilter/all`)
+                .end((err, res) => {
+                  if (err) done(err);
+                  expect(res.status).to.equal(200);
+                  expect(res.body).to.have.lengthOf(1);
+                  expect(res.body[0].title).to.equal("Playlist Pepito");
+                  expect(res.body[0].songs).to.have.lengthOf(1);
+                  done();
+                });
+            });
+          });
+        });
+      });
+    });
+  });
 });

@@ -111,7 +111,7 @@ describe("Artist tests (removes all artists before each test)", () => {
             if (err) done(err);
             expect(res.status).to.equal(200);
             expect(res.body[0].name).to.equal("Pepito");
-            expect(res.body[0].uid).to.be.undefined;
+            expect(res.body[0].uid).to.equal("1");
             done();
           });
       });

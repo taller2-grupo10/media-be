@@ -41,6 +41,12 @@
  *            type: string
  *          likes:
  *            type: number
+ *          isActive:
+ *            type: boolean
+ *            default: true
+ *          subscriptionLevel:
+ *            type: number
+ *            default: 0
  *
  *      AlbumResponse:
  *        allOf:

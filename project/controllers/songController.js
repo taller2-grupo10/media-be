@@ -90,6 +90,17 @@ const songGetByAlbumId = (req, res) => {
     });
 };
 
+const songGetByAlbumIdNoFilter = (req, res) => {
+  const albumId = req.params.albumId;
+  Song.find({ "album.album": albumId })
+    .then((result) => {
+      res.status(200).send(result);
+    })
+    .catch((err) => {
+      res.status(400).send(err);
+    });
+};
+
 // song get by name with contains
 const songGetByName = (req, res) => {
   const name = req.params.name;
@@ -201,4 +212,5 @@ export {
   songGetByGenre,
   songGetAllNoFilter,
   songGetBySubscriptionLevel,
+  songGetByAlbumIdNoFilter,
 };
