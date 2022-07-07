@@ -52,7 +52,6 @@ describe("Artist tests (removes all artists before each test)", () => {
                 .end((err, res) => {
                   if (err) done(err);
                   expect(res.status).to.equal(200);
-                  console.log("res.body", res.body);
                   expect(res.body.songs).to.have.lengthOf(1);
                   expect(res.body.albums).to.have.lengthOf(1);
                   expect(res.body.playlists).to.have.lengthOf(1);
@@ -94,7 +93,6 @@ describe("Artist tests (removes all artists before each test)", () => {
                 .end((err, res) => {
                   if (err) done(err);
                   expect(res.status).to.equal(200);
-                  console.log("res.body", res.body);
                   expect(res.body.songs).to.have.lengthOf(1);
                   expect(res.body.albums).to.have.lengthOf(1);
                   expect(res.body.playlists).to.have.lengthOf(1);
