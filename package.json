@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "mocha project/test/**  -R min --exit --timeout 10000",
+    "test": "mocha project/test/**  -R min --exit --timeout 100000",
     "coverage": "c8 npm test",
     "start_nodemon": "nodemon index.js",
     "start": "node index.js"
