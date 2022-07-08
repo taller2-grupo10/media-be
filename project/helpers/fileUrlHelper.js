@@ -1,13 +1,8 @@
 import { initializeApp } from "firebase/app";
 import "firebase/storage";
-import {
-  getStorage,
-  ref,
-  getDownloadURL,
-  uploadBytesResumable,
-} from "firebase/storage";
+import { getDownloadURL, getStorage, ref } from "firebase/storage";
 
-export const fileUpload = async (file, fileTitle) => {
+export const getFileUrl = async (fileTitle) => {
   // Set the configuration
   const firebaseConfig = {
     apiKey: process.env.STORAGE_API_KEY,
@@ -20,12 +15,9 @@ export const fileUpload = async (file, fileTitle) => {
   };
   initializeApp(firebaseConfig);
   const storage = getStorage();
-  storage.maxOperationRetryTime = 100000000;
-  storage.maxUploadRetryTime = 100000000;
   // Get a reference to the storage service, which is used to create references in your storage bucket
   const storageRef = ref(storage, fileTitle);
 
-  await uploadBytesResumable(storageRef, file);
   let fileUrl = await getDownloadURL(storageRef); // we can also obtain the url later with the storage ref
 
   return fileUrl;
