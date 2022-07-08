@@ -20,8 +20,8 @@ export const fileUpload = async (file, fileTitle) => {
   };
   initializeApp(firebaseConfig);
   const storage = getStorage();
-  storage.setMaxOperationRetryTime = 10000000000000;
-  storage.setMaxUploadRetryTime = 10000000000000;
+  storage.maxOperationRetryTime = 100000000;
+  storage.maxUploadRetryTime = 100000000;
   // Get a reference to the storage service, which is used to create references in your storage bucket
   const storageRef = ref(storage, fileTitle);
 
