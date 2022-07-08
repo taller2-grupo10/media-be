@@ -3,8 +3,8 @@ import { getFileUrl } from "../helpers/fileUrlHelper.js";
 
 const albumCreate = async (req, res) => {
   let data = JSON.parse(req.body.data);
-  let photoUrl = await getFileUrl(data.filename);
-  data.photoUrl = photoUrl;
+  let photoURL = await getFileUrl(data.filename);
+  data.photoURL = photoURL;
 
   const album = new Album(data);
   album
