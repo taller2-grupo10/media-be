@@ -47,6 +47,8 @@
  *            $ref: '#/components/schemas/Genre'
  *          url:
  *            type: string
+ *          subscriptionLevel:
+ *            type: number
  *          createdAt:
  *            type: string
  *            format: date-time
@@ -59,6 +61,9 @@
  *          isDeleted:
  *            type: boolean
  *            default: false
+ *          isActive:
+ *            type: boolean
+ *            default: true
  *
  *      SongResponse:
  *        allOf:

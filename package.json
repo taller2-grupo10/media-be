@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "mocha project/test/**  -R min --exit --timeout 10000",
+    "test": "mocha project/test/**  -R min --exit --timeout 100000",
     "coverage": "c8 npm test",
     "start_nodemon": "nodemon index.js",
     "start": "node index.js"
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/taller2-grupo10/media-test#readme",
   "dependencies": {
+    "axios": "^0.27.2",
     "c8": "^7.11.3",
     "chai": "^4.3.6",
     "chai-http": "^4.3.0",

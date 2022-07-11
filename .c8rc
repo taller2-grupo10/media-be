@@ -7,6 +7,6 @@
     "project/test"
   ],
   "clean": true,
-  "reporter": "clover",
+  "reporter": "text",
   "report-dir": "./"
 }

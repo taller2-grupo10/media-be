@@ -1,15 +1,9 @@
 import { initializeApp } from "firebase/app";
 import "firebase/storage";
-import {
-  getStorage,
-  ref,
-  getDownloadURL,
-  uploadBytesResumable,
-} from "firebase/storage";
+import { getDownloadURL, getStorage, ref } from "firebase/storage";
 
-export const fileUpload = async (file, fileTitle) => {
+export const getFileUrl = async (fileTitle) => {
   // Set the configuration
-  // TODO: This config is to test. Replace with app's config object
   const firebaseConfig = {
     apiKey: process.env.STORAGE_API_KEY,
     authDomain: process.env.STORAGE_AUTH_DOMAIN,
@@ -24,9 +18,7 @@ export const fileUpload = async (file, fileTitle) => {
   // Get a reference to the storage service, which is used to create references in your storage bucket
   const storageRef = ref(storage, fileTitle);
 
-  await uploadBytesResumable(storageRef, file);
   let fileUrl = await getDownloadURL(storageRef); // we can also obtain the url later with the storage ref
 
   return fileUrl;
 };
-

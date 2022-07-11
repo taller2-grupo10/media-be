@@ -108,52 +108,6 @@ describe("Albums tests (removes all albums before each test)", () => {
     });
   });
 
-  /*
-  describe("album get by name", () => {
-    it("Get albums by name OK", (done) => {
-      const artist = new Artist({ name: "Pepito", uid: 1 });
-      artist.save().then(() => {
-        const album = new Album({
-          title: "Album Pepito",
-          artist: { artist: artist._id, name: artist.name },
-        });
-        album.save().then(() => {
-          chai
-            .request(testUrl)
-            .get(`/albums/name/${album.title}`)
-            .end((err, res) => {
-              if (err) done(err);
-              expect(res.status).to.equal(200);
-              expect(res.body[0].title).to.equal("Album Pepito");
-              expect(res.body[0].artist.name).to.equal("Pepito");
-              done();
-            });
-        });
-      });
-    });
-
-    it("Get albums by name with invalid name returns status 400", (done) => {
-      const artist = new Artist({ name: "Pepito", uid: 1 });
-      artist.save().then(() => {
-        const album = new Album({
-          title: "Album Pepito",
-          artist: { artist: artist._id, name: artist.name },
-        });
-        album.save().then(() => {
-          chai
-            .request(testUrl)
-            .get(`/albums/name/Album`)
-            .end((err, res) => {
-              if (err) done(err);
-              expect(res.status).to.equal(400);
-              done();
-            });
-        });
-      });
-    });
-  });
-  */
-
   describe("Album get by id", () => {
     it("Get album by id OK", (done) => {
       const artist = new Artist({ name: "Pepito", uid: 1 });
@@ -281,6 +235,80 @@ describe("Albums tests (removes all albums before each test)", () => {
               if (err) done(err);
               expect(res.status).to.equal(200);
               expect(res.body).to.have.lengthOf(0);
+              done();
+            });
+        });
+      });
+    });
+  });
+
+  describe("Get all albums without filters", () => {
+    it("Should return all deleted albums", (done) => {
+      const artist = new Artist({ name: "Pepito", uid: 1 });
+      artist.save().then(() => {
+        const album = new Album({
+          title: "Album Pepito",
+          artist: { artist: artist._id, name: artist.name },
+          isDeleted: true,
+        });
+        album.save().then(() => {
+          chai
+            .request(testUrl)
+            .get(`/albums/noFilter/all`)
+            .end((err, res) => {
+              if (err) done(err);
+              expect(res.status).to.equal(200);
+              expect(res.body).to.have.lengthOf(1);
+              expect(res.body[0].title).to.equal("Album Pepito");
+              expect(res.body[0].artist.name).to.equal("Pepito");
+              done();
+            });
+        });
+      });
+    });
+    it("Should return all inactive albums", (done) => {
+      const artist = new Artist({ name: "Pepito", uid: 1 });
+      artist.save().then(() => {
+        const album = new Album({
+          title: "Album Pepito",
+          artist: { artist: artist._id, name: artist.name },
+          isActive: false,
+        });
+        album.save().then(() => {
+          chai
+            .request(testUrl)
+            .get(`/albums/noFilter/all`)
+            .end((err, res) => {
+              if (err) done(err);
+              expect(res.status).to.equal(200);
+              expect(res.body).to.have.lengthOf(1);
+              expect(res.body[0].title).to.equal("Album Pepito");
+              expect(res.body[0].artist.name).to.equal("Pepito");
+              done();
+            });
+        });
+      });
+    });
+  });
+
+  describe("Get albums by sub level", () => {
+    it("Should return matching sub level albums", (done) => {
+      const artist = new Artist({ name: "Pepito", uid: 1 });
+      artist.save().then(() => {
+        const album = new Album({
+          title: "Album Pepito",
+          artist: { artist: artist._id, name: artist.name },
+          subscriptionLevel: 1,
+        });
+        album.save().then(() => {
+          chai
+            .request(testUrl)
+            .get(`/albums/subscription/1`)
+            .end((err, res) => {
+              if (err) done(err);
+              expect(res.status).to.equal(200);
+              expect(res.body).to.have.lengthOf(1);
+              expect(res.body[0].title).to.equal("Album Pepito");
               done();
             });
         });

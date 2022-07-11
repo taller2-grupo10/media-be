@@ -9,6 +9,9 @@ import {
   songGetByID,
   songGetByName,
   songUpdate,
+  songGetAllNoFilter,
+  songGetBySubscriptionLevel,
+  songGetByAlbumIdNoFilter,
 } from "../controllers/songController.js";
 import "./songRoutesDoc.js";
 
@@ -132,6 +135,31 @@ songRouter.get("/albumId/:albumId", songGetByAlbumId);
 
 /**
  * @swagger
+ * /songs/albumId/noFilter/{id}:
+ *   get:
+ *     summary: Get songs by an album id without filtering
+ *     tags: [Songs]
+ *     description: Get songs by an album id without filtering
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: id of the album to get their songs
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *      '200':
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/SongResponse'
+ */
+songRouter.get("/albumId/noFilter/:albumId", songGetByAlbumIdNoFilter);
+
+/**
+ * @swagger
  * /songs/name/{name}:
  *   get:
  *     summary: Get songs by name
@@ -198,6 +226,24 @@ songRouter.get("/", songGetAll);
 
 /**
  * @swagger
+ * /songs/noFilter/all:
+ *   get:
+ *     summary: Get all songs without filtering
+ *     tags: [Songs]
+ *     description: Get all songs without filtering
+ *     responses:
+ *      '200':
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/SongResponse'
+ */
+songRouter.get("/noFilter/all", songGetAllNoFilter);
+
+/**
+ * @swagger
  * /songs/genre/{genre}:
  *   get:
  *     summary: Get songs by a genre name
@@ -220,5 +266,30 @@ songRouter.get("/", songGetAll);
  *                $ref: '#/components/schemas/SongResponse'
  */
 songRouter.get("/genre/:genre", songGetByGenre);
+
+/**
+ * @swagger
+ * /songs/subscription/{subscriptionLevel}:
+ *   get:
+ *     summary: Get songs by a subscription level
+ *     tags: [Songs]
+ *     description: Get songs by a subscription level
+ *     parameters:
+ *       - name: subscriptionLevel
+ *         in: path
+ *         description: subscription level to get its songs
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *      '200':
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/SongResponse'
+ */
+songRouter.get("/subscription/:subscriptionLevel", songGetBySubscriptionLevel);
 
 export { songRouter, SONG_ROUTE };

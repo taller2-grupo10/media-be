@@ -5,6 +5,7 @@ import {
   playlistGetByID,
   playlistGetByUserId,
   playlistUpdate,
+  playlistGetAllNoFilter,
 } from "../controllers/playlistController.js";
 import "./playlistRoutesDoc.js";
 
@@ -58,6 +59,24 @@ playlistRouter.post("/", playlistCreate);
  *                $ref: '#/components/schemas/PlaylistResponse'
  */
 playlistRouter.get("/", playlistGetAll);
+
+/**
+ * @swagger
+ * /playlists/noFilter/all:
+ *   get:
+ *     summary: Get all playlists without filtering
+ *     tags: [Playlists]
+ *     description: Get all playlists without filtering
+ *     responses:
+ *      '200':
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/PlaylistResponse'
+ */
+playlistRouter.get("/noFilter/all", playlistGetAllNoFilter);
 
 /**
  * @swagger
