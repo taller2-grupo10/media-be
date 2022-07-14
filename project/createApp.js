@@ -83,7 +83,7 @@ async function isTokenValid(token) {
 
 async function tokenValidator(req, res, next) {
   /* Avoid checking token on test environment */
-  if (process.env.TESTING === "True") {
+  if (process.env.TESTING === "True" || req.url.includes("/doc")) {
     next();
     return;
   }
